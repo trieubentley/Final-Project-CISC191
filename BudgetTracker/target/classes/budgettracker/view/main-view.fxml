@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<!-- Module 7: JavaFX FXML layout. Controller is BudgetController. -->
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="budgettracker.ui.BudgetController"
+            prefWidth="860" prefHeight="600"
+            style="-fx-font-family: 'Segoe UI', sans-serif; -fx-background-color: #f4f6f8;">
+
+    <!-- TOP: Title bar + balance -->
+    <top>
+        <HBox style="-fx-background-color: #2c3e50; -fx-padding: 12 20;" alignment="CENTER_LEFT" spacing="20">
+            <Label text="💰 Budget Tracker"
+                   style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="balanceLabel" text="Balance: $0.00"
+                   style="-fx-text-fill: #2ecc71; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER: Transaction table + report area -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <!-- Filter / sort buttons -->
+            <HBox spacing="8">
+                <Button text="Show All"        onAction="#handleShowAll"        style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                <Button text="Expenses Only"   onAction="#handleFilterExpenses" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                <Button text="Income Only"     onAction="#handleFilterIncome"   style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                <Button text="Sort by Date"    onAction="#handleSortByDate"     style="-fx-background-color: #8e44ad; -fx-text-fill: white;"/>
+                <Button text="Generate Report" onAction="#handleGenerateReport" style="-fx-background-color: #f39c12; -fx-text-fill: white;"/>
+            </HBox>
+
+            <!-- Transaction Table -->
+            <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId"       text="ID"          prefWidth="40"/>
+                    <TableColumn fx:id="colType"     text="Type"        prefWidth="80"/>
+                    <TableColumn fx:id="colDesc"     text="Description" prefWidth="200"/>
+                    <TableColumn fx:id="colAmount"   text="Amount"      prefWidth="90"/>
+                    <TableColumn fx:id="colCategory" text="Category"    prefWidth="120"/>
+                    <TableColumn fx:id="colDate"     text="Date"        prefWidth="100"/>
+                </columns>
+                <placeholder><Label text="No transactions yet. Add one below!"/></placeholder>
+            </TableView>
+
+            <!-- Report area (hidden until report is generated) -->
+            <TextArea fx:id="reportArea" prefRowCount="5" editable="false" wrapText="true"
+                      promptText="Click 'Generate Report' to see your summary..."
+                      style="-fx-font-family: monospace;"/>
+        </VBox>
+    </center>
+
+    <!-- RIGHT: Add transaction form -->
+    <right>
+        <VBox spacing="12" style="-fx-background-color: white; -fx-padding: 20; -fx-effect: dropshadow(gaussian, #ccc, 8, 0, -2, 0);"
+              prefWidth="240">
+            <Label text="Add Transaction" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+            <Label text="Type:"/>
+            <HBox spacing="10">
+                <RadioButton fx:id="expenseRadio" text="Expense" selected="true">
+                    <toggleGroup><ToggleGroup fx:id="typeGroup"/></toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="incomeRadio" text="Income" toggleGroup="$typeGroup"/>
+            </HBox>
+
+            <Label text="Amount ($):"/>
+            <TextField fx:id="amountField" promptText="e.g. 45.00"/>
+
+            <Label text="Description:"/>
+            <TextField fx:id="descField" promptText="e.g. Groceries"/>
+
+            <Label text="Category:"/>
+            <ComboBox fx:id="categoryBox" maxWidth="Infinity"/>
+
+            <Label text="Date:"/>
+            <DatePicker fx:id="datePicker" maxWidth="Infinity"/>
+
+            <Button text="Add Transaction" onAction="#handleAddTransaction"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8;"/>
+
+            <Button text="Delete Selected" onAction="#handleDeleteTransaction"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8;"/>
+
+            <Label fx:id="statusLabel" text="" wrapText="true"
+                   style="-fx-text-fill: #7f8c8d; -fx-font-size: 11px;"/>
+        </VBox>
+    </right>
+
+</BorderPane>
