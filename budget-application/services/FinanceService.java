@@ -5,6 +5,10 @@ public class FinanceService {
         // ... we can come back to this...
     }
 
+    public void removeTransaction(t : transaction) {
+        // idk, lol
+    }
+
     public double calculateBalance() {
         // ... we can come back to this one, too
     }
